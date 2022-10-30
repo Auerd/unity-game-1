@@ -15,11 +15,13 @@ public class GoInOutPause : MonoBehaviour
         {
             animator.SetTrigger("pauseStart");
             pause_is_going = true;
+            GlobalEventManager.SendPausePressed();
         }
     }
     public void OnClick()
     {
         animator.SetTrigger("pauseEnd");
         pause_is_going = false;
+        GlobalEventManager.SendPauseUnpressed();
     }
 }
