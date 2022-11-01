@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseEventListener : MonoBehaviour
+public class PlayerPauseEventListener : MonoBehaviour
 {
     PlayerControl playerControl;
     Animator animator;

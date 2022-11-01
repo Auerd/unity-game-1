@@ -1,5 +1,3 @@
-using System;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class GlobalEventManager
@@ -12,7 +10,7 @@ public class GlobalEventManager
     }
 
 
-    // Upressing pause event
+    // Unpressing pause event
     public static UnityEvent OnPauseUnpressed = new UnityEvent();
     public static void SendPauseUnpressed()
     {
