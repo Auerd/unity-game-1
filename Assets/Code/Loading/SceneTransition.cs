@@ -12,8 +12,11 @@ public class SceneTransition : MonoBehaviour
 	private Animator animator;
 
 	private AsyncOperation LoadingSceneOperation;
+	private float progress = 0;
 
 	public TextMeshProUGUI LoadingPercantage;
+	public int progressSmooth;
+
 
     public static void SwitchToScene(string sceneName)
 	{
@@ -38,6 +41,10 @@ public class SceneTransition : MonoBehaviour
 	void Update()
 	{
 		if(LoadingSceneOperation != null)
-			LoadingPercantage.text = Mathf.RoundToInt(LoadingSceneOperation.progress) + "%";
+		{
+			LoadingPercantage.text = Mathf.RoundToInt(Mathf.Lerp(progress, LoadingSceneOperation.progress, progressSmooth)) + "%";
+			instance.progress = LoadingSceneOperation.progress;
+		}
+		if(Mathf.RoundToInt(instance.progress) >= 99.0f) OnAnimationOver();
 	}
 }
