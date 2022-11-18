@@ -3533,6 +3533,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1749483261}
     m_Modifications:
+    - target: {fileID: -6911078211697891611, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -6911078211697891611, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
+      propertyPath: display
+      value: 
+      objectReference: {fileID: 210339036}
     - target: {fileID: 3839000936689896605, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
       propertyPath: m_Name
       value: Cow (1)
@@ -3715,27 +3723,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6310752564960483729, guid: cc1b04076aa619c4d95f77286345f070, type: 3}
   m_PrefabInstance: {fileID: 1442728190}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1460428363 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3839000936689896605, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
-  m_PrefabInstance: {fileID: 2553587201414241300}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1460428369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1460428363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ebf35caae356040a29685e6b1f58ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  display: {fileID: 0}
-  speed: 0
-  seconds_end_move_randstart: 0
-  seconds_end_move_end: 0
 --- !u!1001 &1527592290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4366,6 +4353,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1749483261}
     m_Modifications:
+    - target: {fileID: -6911078211697891611, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
+      propertyPath: display
+      value: 
+      objectReference: {fileID: 210339036}
     - target: {fileID: 2553587200577964384, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
       propertyPath: m_FlipX
       value: 0

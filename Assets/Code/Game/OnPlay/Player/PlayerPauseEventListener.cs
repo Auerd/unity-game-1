@@ -12,6 +12,7 @@ public class PlayerPauseEventListener : MonoBehaviour
         playerControl = GetComponent<PlayerControl>();
         animator = GetComponent<Animator>();
     }
+
     void Awake()
     {
         GlobalEventManager.OnPausePressed.AddListener(Stop);
@@ -23,6 +24,7 @@ public class PlayerPauseEventListener : MonoBehaviour
         animator.enabled = false;
         playerControl.enabled = false;
     }
+
     private void Continue()
     {
         animator.enabled = true;

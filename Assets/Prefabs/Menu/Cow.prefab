@@ -183,6 +183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   display: {fileID: 0}
-  speed: 1
+  speed: 10
   seconds_end_move_randstart: 2
   seconds_end_move_end: 8

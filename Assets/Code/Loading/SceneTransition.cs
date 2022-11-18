@@ -10,6 +10,7 @@ public class SceneTransition : MonoBehaviour
 	private static bool shouldPlayOpeningAnimation = false;
 
 	private Animator animator;
+	private new Transform transform;
 
 	private AsyncOperation LoadingSceneOperation;
 	private float progress = 0;
@@ -17,34 +18,46 @@ public class SceneTransition : MonoBehaviour
 	public TextMeshProUGUI LoadingPercantage;
 	public int progressSmooth;
 
+    private void ChildObjectsDisable()
+    {
+        transform.Find("Image").gameObject.SetActive(false);
+        transform.Find("LoadingBlock").gameObject.SetActive(false);
+    }
+	private void ChildObjectsAble()
+	{
+        transform.Find("Image").gameObject.SetActive(true);
+        transform.Find("LoadingBlock").gameObject.SetActive(true);
+    }
+    void Start()
+    {
+        instance = this;
+        animator = GetComponent<Animator>();
+		transform = GetComponent<Transform>();
+        if (shouldPlayOpeningAnimation) animator.SetTrigger("SceneOpen");
+		ChildObjectsDisable();
+    }
 
     public static void SwitchToScene(string sceneName)
 	{
-		instance.animator.SetTrigger("SceneClose");
+		instance.ChildObjectsAble();
+        instance.animator.SetTrigger("SceneClose");
 		instance.LoadingSceneOperation = SceneManager.LoadSceneAsync(sceneName);
 		instance.LoadingSceneOperation.allowSceneActivation = false;
 	}
 
 	public void OnAnimationOver()
 	{
-        LoadingSceneOperation.allowSceneActivation = true;
-		shouldPlayOpeningAnimation = true;
+        instance.LoadingSceneOperation.allowSceneActivation = true;
+        shouldPlayOpeningAnimation = true;
     }
-
-	void Start()
-	{
-		animator = GetComponent<Animator>();
-		instance = this;
-		if(shouldPlayOpeningAnimation) animator.SetTrigger("SceneOpen");
-	}
 
 	void Update()
 	{
-		if(LoadingSceneOperation != null)
+		if(instance.LoadingSceneOperation != null)
 		{
-			LoadingPercantage.text = Mathf.RoundToInt(Mathf.Lerp(progress, LoadingSceneOperation.progress, progressSmooth)) + "%";
-			instance.progress = LoadingSceneOperation.progress;
+            progress = Mathf.Lerp(progress, LoadingSceneOperation.progress, progressSmooth);
+            instance.LoadingPercantage.text = Mathf.RoundToInt(progress*100) + "%";
 		}
-		if(Mathf.RoundToInt(instance.progress) >= 99.0f) OnAnimationOver();
+		if(Mathf.RoundToInt(progress)*100 == 100) OnAnimationOver();
 	}
 }
