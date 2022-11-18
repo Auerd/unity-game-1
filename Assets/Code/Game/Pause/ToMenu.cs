@@ -6,6 +6,6 @@ public class ToMenu : MonoBehaviour
     // Go to menu
     public void OnClick()
     {
-        SceneManager.LoadScene("Menu");
+        SceneTransition.SwitchToScene("Menu");
     }
 }

@@ -53,7 +53,7 @@ public class PlayerControl : MonoBehaviour
     private void FixedUpdate()
     {
         if (Sqrt(direction.x * direction.x + direction.y * direction.y)>1)
-            direction.Normalize();
+        direction.Normalize();
         move = speed * Time.fixedDeltaTime * direction;
         rb.MovePosition(rb.position + move);
     }
