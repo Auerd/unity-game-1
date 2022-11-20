@@ -5,6 +5,6 @@ public class GoToPlay : MonoBehaviour
 {
     public void OnClick()
     {
-        SceneManager.LoadScene("Game");
+        SceneTransition.SwitchToScene("Game");
     }
 }
