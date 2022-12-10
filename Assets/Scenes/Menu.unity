@@ -4546,6 +4546,14 @@ PrefabInstance:
       propertyPath: display
       value: 
       objectReference: {fileID: 210339036}
+    - target: {fileID: -6911078211697891611, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
+      propertyPath: secondsToMoveRangeEnd
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6911078211697891611, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
+      propertyPath: secondsToMoveRangeStart
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2553587200577964384, guid: cf2f3728c7d64ab4c95638ecd34b73d2, type: 3}
       propertyPath: m_FlipX
       value: 0

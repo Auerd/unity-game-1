@@ -184,5 +184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display: {fileID: 0}
   speed: 10
-  seconds_end_move_randstart: 2
-  seconds_end_move_end: 8
+  secondsToMoveRangeStart: 2
+  secondsToMoveRangeEnd: 7
+  force: {x: 0, y: 0}

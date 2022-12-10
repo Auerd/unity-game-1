@@ -10,6 +10,7 @@ public class CowControl : MonoBehaviour
 	public int secondsToMoveRangeStart;
 	public int secondsToMoveRangeEnd;
 
+	[SerializeField]
 	private Vector2 force;
 	private Vector2 topRight;
 	private Vector2 bottomLeft;
@@ -36,7 +37,7 @@ public class CowControl : MonoBehaviour
 
 		SetRandomForce();
 
-		StartCoroutine(RandomForce());
+		StartCoroutine(ForceControl());
 	}
 
 	void Update()
@@ -50,7 +51,7 @@ public class CowControl : MonoBehaviour
 		else if (force.x < 0) spriteRenderer.flipX = true;
 	}
 
-	IEnumerator RandomForce()
+	IEnumerator ForceControl()
 	{
 		while (pause)
 		{
