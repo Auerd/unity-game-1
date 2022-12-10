@@ -7,8 +7,8 @@ public class CowControl : MonoBehaviour
 
 	public float speed;
 
-	public int seconds_end_move_randstart;
-	public int seconds_end_move_end;
+	public int secondsToMoveRangeStart;
+	public int secondsToMoveRangeEnd;
 
 	private Vector2 force;
 	private Vector2 topRight;
@@ -32,38 +32,34 @@ public class CowControl : MonoBehaviour
         animator = GetComponent<Animator>();
 
         // Sets random position on start of the scene
-        topRight = display.ScreenToWorldPoint(new Vector2());
-		bottomLeft = display.ScreenToWorldPoint(new Vector2(display.scaledPixelWidth, display.scaledPixelHeight));
-		randomX = Random.Range(bottomLeft.x, topRight.x);
-		randomY = Random.Range(bottomLeft.y, topRight.y);
-		rb.position = (new Vector2(randomX, randomY));
+		rb.position = GetRandomPointFromDisplay(display);
 
 		SetRandomForce();
 
 		StartCoroutine(RandomForce());
 	}
 
-	// The cycle
 	void Update()
 	{
 		rb.MovePosition(rb.position + force * Time.deltaTime);
 		animator.SetFloat("RealSpeed", force.magnitude);
 		animator.SetFloat("Horizontal", force.x);
-		if (force.x > 0) spriteRenderer.flipX = false;
+
+        // Reflects the sprite along the x-axis
+        if (force.x > 0) spriteRenderer.flipX = false;
 		else if (force.x < 0) spriteRenderer.flipX = true;
 	}
 
-	// Generates new force and manage the cycle
 	IEnumerator RandomForce()
 	{
 		while (pause)
 		{
-			yield return new WaitForSeconds(Random.Range(seconds_end_move_randstart,
-														 seconds_end_move_end));
+			yield return new WaitForSeconds(Random.Range(secondsToMoveRangeStart,
+														 secondsToMoveRangeEnd));
 			force = new Vector2();
 
-			yield return new WaitForSeconds(Random.Range(seconds_end_move_randstart,
-														 seconds_end_move_end));
+			yield return new WaitForSeconds(Random.Range(secondsToMoveRangeStart,
+														 secondsToMoveRangeEnd));
 			SetRandomForce();
 		}
 	}
@@ -71,11 +67,18 @@ public class CowControl : MonoBehaviour
     // Creates new force
     private void SetRandomForce()
 	{
-		randomX = Random.Range(bottomLeft.x, topRight.x);
-		randomY = Random.Range(bottomLeft.y, topRight.y);
-		force = new Vector2(randomX, randomY);
+		force = GetRandomPointFromDisplay(display);
 		force -= rb.position;
 		force.Normalize();
 		force *= speed;
 	}
+
+	private Vector2 GetRandomPointFromDisplay(Camera display)
+	{
+        topRight = display.ScreenToWorldPoint(new Vector2());
+        bottomLeft = display.ScreenToWorldPoint(new Vector2(display.scaledPixelWidth, display.scaledPixelHeight));
+        randomX = Random.Range(bottomLeft.x, topRight.x);
+        randomY = Random.Range(bottomLeft.y, topRight.y);
+		return new Vector2(randomX, randomY);
+    }
 }

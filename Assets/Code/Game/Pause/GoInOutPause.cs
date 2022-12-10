@@ -2,26 +2,32 @@ using UnityEngine;
 
 public class GoInOutPause : MonoBehaviour
 {
-    Animator animator;
+	Animator animator;
 
-    bool pause_is_going = false;
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-    void Update()
-    {
-        if (Input.GetKey("escape") && !pause_is_going)
-        {
-            animator.SetTrigger("pauseStart");
-            pause_is_going = true;
-            GlobalEventManager.SendPausePressed();
-        }
-    }
-    public void OnClick()
-    {
-        animator.SetTrigger("pauseEnd");
-        pause_is_going = false;
-        GlobalEventManager.SendPauseUnpressed();
+	bool pauseIsGoing = false;
+
+	void Start()
+	{
+		animator = GetComponent<Animator>();
+	}
+
+	void Update()
+	{
+		if (Input.GetKey("escape") && !pauseIsGoing)
+		{
+			animator.SetTrigger("pauseStart");
+			pauseIsGoing = true;
+			GlobalEventManager.SendPausePressed();
+		}
+	}
+	public void StartAnimationOut()
+	{
+		animator.SetTrigger("pauseEnd");
+		pauseIsGoing = false;
+	}
+
+	public void OnAnimationOver()
+	{
+		GlobalEventManager.SendPauseUnpressed();
     }
 }
