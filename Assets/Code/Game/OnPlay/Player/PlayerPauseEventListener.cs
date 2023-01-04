@@ -17,6 +17,8 @@ public class PlayerPauseEventListener : MonoBehaviour
     {
         GlobalEventManager.OnPausePressed.AddListener(Stop);
         GlobalEventManager.OnPauseUnpressed.AddListener(Continue);
+        GlobalEventManager.OnDialogStarted.AddListener(Stop);
+        GlobalEventManager.OnDialogEnded.AddListener(Continue);
     }
 
     private void Stop()
