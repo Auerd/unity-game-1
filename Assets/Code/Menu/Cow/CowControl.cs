@@ -10,7 +10,6 @@ public class CowControl : MonoBehaviour
 	public int secondsToMoveRangeStart;
 	public int secondsToMoveRangeEnd;
 
-	[SerializeField]
 	private Vector2 force;
 	private Vector2 topRight;
 	private Vector2 bottomLeft;
@@ -42,14 +41,16 @@ public class CowControl : MonoBehaviour
 
 	void Update()
 	{
-		rb.MovePosition(rb.position + force * Time.deltaTime);
 		animator.SetFloat("RealSpeed", force.magnitude);
-		animator.SetFloat("Horizontal", force.x);
 
-        // Reflects the sprite along the x-axis
         if (force.x > 0) spriteRenderer.flipX = false;
 		else if (force.x < 0) spriteRenderer.flipX = true;
 	}
+
+	private void FixedUpdate()
+	{
+        rb.MovePosition(rb.position + force * Time.fixedDeltaTime);
+    }
 
 	IEnumerator ForceControl()
 	{
