@@ -13,30 +13,40 @@ public class SceneTransition : MonoBehaviour
 	private AsyncOperation LoadingSceneOperation;
 
 	private float realProgress;
-	private float t = 0;
+	private float smooth = 0;
 
 	public TextMeshProUGUI LoadingPercentage;
 	public float easing;
 	public float durationOfPercentTransition;
 
-	void Update()
+
+	Start()
+	{
+		instance = this;
+		animator = GetComponent<Animator>();
+		transform = GetComponent<Transform>();
+		if (shouldPlayOpeningAnimation) animator.SetTrigger("SceneOpen");
+		else ChildObjectsDisable();
+		instance.LoadingPercentage.text = Mathf.RoundToInt(visibleProgress * 100) + "%";
+	}
+
+	Update()
 	{
 		if (instance.LoadingSceneOperation != null)
 		{
-			/* I put /0.9f 'cause progress not finishes on 1. It finishes on 0.9 */
+			/* I put /0.9f 'cause progress does not finish on 1. It finishes on 0.9 */
 			realProgress = LoadingSceneOperation.progress / 0.9f;
 			if (visibleProgress < realProgress)
 			{
-				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(t, easing));
+				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(t, multiplier));
 
-				t += Time.deltaTime / durationOfPercentTransition;
+				smooth += Time.deltaTime / durationOfPercentTransition;
 			}
 
 			if (Mathf.RoundToInt(visibleProgress * 100) >= Mathf.RoundToInt(realProgress * 100))
 			{
 				visibleProgress = realProgress;
-
-				t = 0;
+				smooth = 0;
 			}
 
 			instance.LoadingPercentage.text = Mathf.RoundToInt(visibleProgress * 100) + "%";
@@ -44,7 +54,7 @@ public class SceneTransition : MonoBehaviour
 		}
 	}
 
-	void Start()
+	private void OnAnimationOver()
 	{
 		instance = this;
 		animator = GetComponent<Animator>();
@@ -76,9 +86,5 @@ public class SceneTransition : MonoBehaviour
 		transform.Find("LoadingBlock").gameObject.SetActive(true);
 	}
 
-	private void OnAnimationOver()
-	{
-		shouldPlayOpeningAnimation = true;
-		instance.LoadingSceneOperation.allowSceneActivation = true;
-	}
+
 }
