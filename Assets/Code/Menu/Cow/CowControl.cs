@@ -41,7 +41,7 @@ public class CowControl : MonoBehaviour
 
 	void Update()
 	{
-		animator.SetFloat("RealSpeed", force.magnitude);
+		animator.SetBool("IsMoving", force.magnitude != 0);
 
         if (force.x > 0) spriteRenderer.flipX = false;
 		else if (force.x < 0) spriteRenderer.flipX = true;
@@ -66,7 +66,6 @@ public class CowControl : MonoBehaviour
 		}
 	}
 
-    // Creates new force
     private void SetRandomForce()
 	{
 		force = GetRandomPointFromDisplay(display);

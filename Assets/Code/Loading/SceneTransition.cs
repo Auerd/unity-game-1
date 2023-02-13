@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,19 +6,17 @@ public class SceneTransition : MonoBehaviour
 {
 	private static SceneTransition instance;
 	private static bool shouldPlayOpeningAnimation = false;
+    private static float visibleProgress;
 
-	private Animator animator;
+    private Animator animator;
 	private new Transform transform;
-
 	private AsyncOperation LoadingSceneOperation;
 
-	private static float visibleProgress;
 	private float realProgress;
 	private float t = 0;
 
-	
 	public TextMeshProUGUI LoadingPercentage;
-	public float multiplier;
+	public float easing;
 	public float durationOfPercentTransition;
 
 	void Update()
@@ -31,7 +27,7 @@ public class SceneTransition : MonoBehaviour
 			realProgress = LoadingSceneOperation.progress / 0.9f;
 			if (visibleProgress < realProgress)
 			{
-				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(t, multiplier));
+				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(t, easing));
 
 				t += Time.deltaTime / durationOfPercentTransition;
 			}
@@ -39,6 +35,7 @@ public class SceneTransition : MonoBehaviour
 			if (Mathf.RoundToInt(visibleProgress * 100) >= Mathf.RoundToInt(realProgress * 100))
 			{
 				visibleProgress = realProgress;
+
 				t = 0;
 			}
 
@@ -52,8 +49,10 @@ public class SceneTransition : MonoBehaviour
 		instance = this;
 		animator = GetComponent<Animator>();
 		transform = GetComponent<Transform>();
-		if (shouldPlayOpeningAnimation) animator.SetTrigger("SceneOpen");
-		else ChildObjectsDisable();
+		if (shouldPlayOpeningAnimation) 
+			animator.SetTrigger("SceneOpen");
+		else 
+			ChildObjectsDisable();
 		instance.LoadingPercentage.text = Mathf.RoundToInt(visibleProgress * 100) + "%";
 	}
 
@@ -82,6 +81,4 @@ public class SceneTransition : MonoBehaviour
 		shouldPlayOpeningAnimation = true;
 		instance.LoadingSceneOperation.allowSceneActivation = true;
 	}
-
-
 }

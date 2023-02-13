@@ -1,5 +1,4 @@
 using UnityEngine;
-using static System.Math;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
