@@ -20,7 +20,7 @@ public class SceneTransition : MonoBehaviour
 	public float durationOfPercentTransition;
 
 
-	Start()
+	void Start()
 	{
 		instance = this;
 		animator = GetComponent<Animator>();
@@ -30,7 +30,7 @@ public class SceneTransition : MonoBehaviour
 		instance.LoadingPercentage.text = Mathf.RoundToInt(visibleProgress * 100) + "%";
 	}
 
-	Update()
+	void Update()
 	{
 		if (instance.LoadingSceneOperation != null)
 		{
@@ -38,7 +38,7 @@ public class SceneTransition : MonoBehaviour
 			realProgress = LoadingSceneOperation.progress / 0.9f;
 			if (visibleProgress < realProgress)
 			{
-				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(t, multiplier));
+				visibleProgress = Mathf.Lerp(visibleProgress, realProgress, Mathf.Pow(smooth, easing));
 
 				smooth += Time.deltaTime / durationOfPercentTransition;
 			}
