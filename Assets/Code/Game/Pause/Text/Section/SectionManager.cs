@@ -13,29 +13,19 @@ public class SectionManager : MonoBehaviour
 
     public void In(float interval)
     {
-        StartCoroutine(GoManagerInWithInterval(interval));
+        StartCoroutine(GoManagerWithInterval(ToDo.In, interval));
     }
 
     public void Out(float interval)
     {
-        StartCoroutine(GoManagerOutWithInterval(interval));
+        StartCoroutine(GoManagerWithInterval(ToDo.Out, interval));
     }
 
-    IEnumerator GoManagerInWithInterval(float interval)
+    IEnumerator GoManagerWithInterval(ToDo toDo, float interval)
     {
         foreach (var manager in managersOfButtons)
         {
-            manager.In();
-            yield return new WaitForSeconds(interval);
-        }
-        yield break;
-    }
-
-    IEnumerator GoManagerOutWithInterval(float interval)
-    {
-        foreach (var manager in managersOfButtons)
-        {
-            manager.Out();
+            manager.Do(toDo);
             yield return new WaitForSeconds(interval);
         }
         yield break;

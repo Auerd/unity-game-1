@@ -3115,7 +3115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c0bdfb531f7ca429d0a688ceb033ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervalBetweenButtons: 0.4
+  intervalBetweenButtons: 0.1
 --- !u!1001 &6781523220237035553
 PrefabInstance:
   m_ObjectHideFlags: 0

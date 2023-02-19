@@ -1,6 +1,12 @@
-﻿using TMPro;
+﻿using System.Linq.Expressions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum ToDo
+{
+    In, Out
+}
 
 public class TextButtonManager : MonoBehaviour
 {
@@ -17,15 +23,24 @@ public class TextButtonManager : MonoBehaviour
         button.enabled = false;
     }
 
-    public void In()
+    void In()
     {
         animator.SetTrigger("In");
         button.enabled = true;
     }
 
-    public void Out()
+    void Out()
     {
         button.enabled = false;
         animator.SetTrigger("Out");
+    }
+
+    public void Do(ToDo toDo)
+    {
+        switch(toDo)
+        {
+            case ToDo.In: In(); break; 
+            case ToDo.Out: Out(); break;
+        }
     }
 }
