@@ -20,18 +20,16 @@ public class TextButtonManager : MonoBehaviour
         textMeshPro = GetComponent<TextMeshProUGUI>();
         button = GetComponent<Button>();
         textMeshPro.alpha = 0;
-        button.enabled = false;
+        GoButtonOff();
     }
 
     void In()
     {
         animator.SetTrigger("In");
-        button.enabled = true;
     }
 
     void Out()
     {
-        button.enabled = false;
         animator.SetTrigger("Out");
     }
 
@@ -47,5 +45,10 @@ public class TextButtonManager : MonoBehaviour
     public void GoButtonOff() 
     { 
         button.enabled = false;
+    }
+
+    public void GoButtonOn()
+    {
+        button.enabled = true; 
     }
 }
