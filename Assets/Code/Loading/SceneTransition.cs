@@ -80,11 +80,10 @@ public class SceneTransition : MonoBehaviour
 		transform.Find("Image").gameObject.SetActive(false);
 		transform.Find("LoadingBlock").gameObject.SetActive(false);
 	}
+
 	private void ChildObjectsAble()
 	{
 		transform.Find("Image").gameObject.SetActive(true);
 		transform.Find("LoadingBlock").gameObject.SetActive(true);
 	}
-
-
 }

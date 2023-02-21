@@ -43,4 +43,9 @@ public class TextButtonManager : MonoBehaviour
             case ToDo.Out: Out(); break;
         }
     }
+
+    public void GoButtonOff() 
+    { 
+        button.enabled = false;
+    }
 }
