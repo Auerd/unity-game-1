@@ -1,7 +1,6 @@
 using UnityEngine;
-using static System.Math;
+using static UnityEngine.KeyCode;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
 {
 	public float speed;
@@ -10,10 +9,10 @@ public class PlayerControl : MonoBehaviour
 	private Vector2 direction;
 
 	public bool smooth_movement;
-	
+
 	private Rigidbody2D rb;
 
-	[SerializeField] private Animator animator;
+	public Animator animator;
 
 	void Start()
 	{
@@ -31,13 +30,13 @@ public class PlayerControl : MonoBehaviour
 		{
 			direction.x = 0;
 			direction.y = 0;
-			if (Input.GetKey("d"))
+			if (Input.GetKey(D))
 				direction.x = 1;
-			else if (Input.GetKey("a"))
+			else if (Input.GetKey(A))
 				direction.x = -1;
-			if (Input.GetKey("w"))
+			if (Input.GetKey(W))
 				direction.y = 1;
-			else if (Input.GetKey("s"))
+			else if (Input.GetKey(S))
 				direction.y = -1;
 		}
 		animator.SetFloat("Horizontal", direction.x);
@@ -52,8 +51,7 @@ public class PlayerControl : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (direction.magnitude>1)
-			direction.Normalize();
+		if (direction.magnitude>1) direction.Normalize();
 		move = speed * Time.fixedDeltaTime * direction;
 		rb.MovePosition(rb.position + move);
 	}

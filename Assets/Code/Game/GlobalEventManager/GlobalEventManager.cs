@@ -1,32 +1,42 @@
+using UnityEngine;
 using UnityEngine.Events;
 
-public class GlobalEventManager
+[CreateAssetMenu(fileName = "GlobalEventManager")]
+public class GlobalEventManager : ScriptableObject
 {
-	// Pressing pause event
-	public static UnityEvent OnPausePressed = new UnityEvent();
+	public static UnityEvent OnPausePressed = new();
 	public static void SendPausePressed()
 	{
-		if (OnPausePressed != null) OnPausePressed.Invoke();
+		OnPausePressed?.Invoke();
 	}
 
-
-	// Unpressing pause event
-	public static UnityEvent OnPauseUnpressed = new UnityEvent();
+	public static UnityEvent OnPauseUnpressed = new();
 	public static void SendPauseUnpressed()
 	{
-		if (OnPauseUnpressed != null) OnPauseUnpressed.Invoke();
+		OnPauseUnpressed?.Invoke();
 	}
 
-	// Dialogue
-	public static UnityEvent OnDialogStarted = new UnityEvent();
+	public static UnityEvent OnDialogStarted = new();
 	public static void SendDialogStarted()
 	{
-		if (OnDialogStarted != null) OnDialogStarted.Invoke();
+		OnDialogStarted?.Invoke();
 	}
 
-	public static UnityEvent OnDialogEnded = new UnityEvent();
+	public static UnityEvent OnDialogEnded = new();
 	public static void SendDialogEnded()
 	{
-		if (OnDialogEnded != null) OnDialogEnded.Invoke();
+		OnDialogEnded?.Invoke();
 	}
+
+	public static UnityEvent OnSavePressed = new();
+	public static void SendSavePressed()
+	{
+		OnSavePressed?.Invoke();
+	}
+
+    public static UnityEvent OnLoadPressed = new();
+    public static void SendLoadPressed()
+    {
+        OnSavePressed?.Invoke();
+    }
 }

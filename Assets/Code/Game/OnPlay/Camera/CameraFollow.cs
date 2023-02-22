@@ -3,8 +3,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject player;
-
     public float smooth;
+
     private void Start()
     {
         transform.position = player.transform.position;
