@@ -7,8 +7,8 @@ public class TextManager : MonoBehaviour, IAnimationManager
 
     public void GoTo(string sectionName)
     {
-        if (sectionAtNow != null)
-            sectionAtNow.Out(intervalBetweenButtons);
+        if (sectionAtNow != null) 
+            sectionAtNow.Out(intervalBetweenButtons); 
         if (transform.Find(sectionName).TryGetComponent(out sectionAtNow))
             sectionAtNow.In(intervalBetweenButtons);
     }
