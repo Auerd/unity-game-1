@@ -46,4 +46,9 @@ public class TextButtonManager : MonoBehaviour
 	{
 		button.enabled = true; 
 	}
+
+	public void GoObjectOff()
+	{
+		gameObject.SetActive(false);
+	}
 }

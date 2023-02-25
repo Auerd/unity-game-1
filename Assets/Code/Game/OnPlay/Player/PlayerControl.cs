@@ -5,7 +5,6 @@ public class PlayerControl : MonoBehaviour
 {
 	public float speed;
 
-	private Vector2 move;
 	private Vector2 direction;
 
 	public bool smooth_movement;
@@ -14,7 +13,7 @@ public class PlayerControl : MonoBehaviour
 
 	public Animator animator;
 
-	void Start()
+    private void Start()
 	{
 		rb = GetComponent<Rigidbody2D>();
 	}
@@ -43,8 +42,8 @@ public class PlayerControl : MonoBehaviour
 		animator.SetFloat("Vertical", direction.y);
 		if (direction.y != 0 || direction.x != 0)
 		{
-			animator.SetFloat("Last_Horizontal", direction.x);
-			animator.SetFloat("Last_Vertical", direction.y);
+			animator.SetFloat("LastHorizontal", direction.x);
+			animator.SetFloat("LastVertical", direction.y);
 		}
 		animator.SetFloat("Speed", direction.magnitude);
 	}
@@ -52,7 +51,6 @@ public class PlayerControl : MonoBehaviour
 	private void FixedUpdate()
 	{
 		if (direction.magnitude>1) direction.Normalize();
-		move = speed * Time.fixedDeltaTime * direction;
-		rb.MovePosition(rb.position + move);
+		rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * direction);
 	}
 }

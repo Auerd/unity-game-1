@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
@@ -7,29 +6,29 @@ public class PauseManager : MonoBehaviour
 
 	bool pauseIsGoing = false;
 
-	void Start()
+    private void Start()
 	{
 		animationManagers = GetComponentsInChildren<IAnimationManager>();
 	}
 
 	void Update()
 	{
-		if (Input.GetKey("escape") && !pauseIsGoing)
+		if (Input.GetKey(KeyCode.Escape) && !pauseIsGoing)
 		{
 			pauseIsGoing = true;
 			GlobalEventManager.SendPausePressed();
-			In();
+			AnimationIn();
 		}
 	}
 
-	public void StartAnimationOut()
+	public void GoPauseOut()
 	{
 		pauseIsGoing = false;
-		Out();
+		AnimationOut();
         GlobalEventManager.SendPauseUnpressed();
     }
 
-	void In()
+	void AnimationIn()
 	{
 		foreach(IAnimationManager animationManager in animationManagers)
 		{
@@ -37,7 +36,7 @@ public class PauseManager : MonoBehaviour
 		}
 	}
 
-	void Out()
+	void AnimationOut()
 	{
 		foreach(IAnimationManager animationManager in animationManagers)
 		{

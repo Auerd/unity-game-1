@@ -1,25 +1,23 @@
 using UnityEngine;
+using static GlobalEventManager;
 
 public class PlayerEventListener : MonoBehaviour
 {
     PlayerControl playerControl;
     Animator animator;
-    Rigidbody2D rb;
 
     private void Start()
     {
         playerControl = GetComponent<PlayerControl>();
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
     }
 
     void Awake()
     {
-        GlobalEventManager.OnPausePressed.AddListener(Stop);
-        GlobalEventManager.OnPauseUnpressed.AddListener(Continue);
-        GlobalEventManager.OnDialogStarted.AddListener(Stop);
-        GlobalEventManager.OnDialogEnded.AddListener(Continue);
-        GlobalEventManager.OnSavePressed.AddListener(Save);
+        OnPausePressed.AddListener(Stop);
+        OnPauseUnpressed.AddListener(Continue);
+        OnDialogStarted.AddListener(Stop);
+        OnDialogEnded.AddListener(Continue);
     }
 
     void Stop()
@@ -32,10 +30,5 @@ public class PlayerEventListener : MonoBehaviour
     {
         animator.enabled = true;
         playerControl.enabled = true;
-    }
-
-    void Save()
-    {
-        SaveManager.Save(transform.name, rb);
     }
 }

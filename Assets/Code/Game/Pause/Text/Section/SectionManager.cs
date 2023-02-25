@@ -12,6 +12,7 @@ public class SectionManager : MonoBehaviour
 
     public void In(float interval)
     {
+        SetAllChildrenActive(true);
         StartCoroutine(GoManagerWithInterval(ToDo.In, interval));
     }
 
@@ -27,6 +28,11 @@ public class SectionManager : MonoBehaviour
             manager.Do(toDo);
             yield return new WaitForSeconds(interval);
         }
-        yield break;
+    }
+
+    void SetAllChildrenActive(bool active)
+    {
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(active);
     }
 }

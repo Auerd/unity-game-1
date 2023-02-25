@@ -1,38 +1,32 @@
 ﻿using UnityEngine;
-using Newtonsoft.Json;
 
 public static class SaveManager
 {
-	private static readonly JsonSerializerSettings settings = new()
-	{
-		ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-	};
-
-	public static void Save<T>(string key, T data) where T : new()
+	public static void Save<T>(string key, T data)
     {
-		string jsonDataString = JsonConvert.SerializeObject(data, settings);
-		PlayerPrefs.SetString(key, jsonDataString);
+		string dataString = JsonUtility.ToJson(data);
+		PlayerPrefs.SetString(key, dataString);
 	}
-
-    public static T Load<T>(string key) where T : new()
+	
+    public static T Load<T>(string key)
     {
 		if (PlayerPrefs.HasKey(key))
 		{
-			string loadedString = PlayerPrefs.GetString(key);
-			return JsonConvert.DeserializeObject<T>(loadedString, settings);
+			string dataString = PlayerPrefs.GetString(key);
+			return JsonUtility.FromJson<T>(dataString);
 		}
-		return new T();
+		return default;
 	}
 
-	public static bool TryLoad<T>(string key, out T data) where T : new()
+	public static bool TryLoad<T>(string key, out T data)
 	{
         if (PlayerPrefs.HasKey(key))
         {
             string loadedString = PlayerPrefs.GetString(key);
-            data = JsonConvert.DeserializeObject<T>(loadedString, settings);
-			return true;
+            data = JsonUtility.FromJson<T>(loadedString);
+			if (data != null) return true;
         }
-		data = new T();
+		data = default;
 		return false;
     }
 }
