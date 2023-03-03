@@ -4,15 +4,16 @@ public class SpriteSorter : MonoBehaviour
 {
     public bool isStatic;
     public float offset;
-    private float sortingOrderBase = 0;
-    Renderer renderer_;
+    private new Renderer renderer;
+
     private void Awake()
     {
-        renderer_ = GetComponent<Renderer>();
+        renderer = GetComponent<Renderer>();
     }
+
     private void LateUpdate()
     {
-        renderer_.sortingOrder = (int)(sortingOrderBase - transform.position.y * 8 + offset);
+        renderer.sortingOrder = (int)(offset - transform.position.y * 8);
         if (isStatic)
             Destroy(this);
     }
