@@ -38,7 +38,7 @@ public class PlayerSaveManager : MonoBehaviour
 
 	void Load()
 	{
-		if(SaveManager.TryLoad(saveKey, out PlayerData data))
+		if (SaveManager.TryLoad(saveKey, out PlayerData data))
 		{
 			transform.position = new Vector2()
 			{
@@ -46,5 +46,7 @@ public class PlayerSaveManager : MonoBehaviour
 				y = data.pos[1]
 			};
 		}
+		else
+			transform.position = new Vector2();
 	}
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 553783598293520207}
   - component: {fileID: 8316226716454902937}
   - component: {fileID: 6179528081735923340}
-  - component: {fileID: 385512377245636048}
   m_Layer: 0
   m_Name: Basic Furniture_6
   m_TagString: Untagged
@@ -72,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1863424207
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -824893760, guid: fe42cb4e7c788314ba4a26db096274e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -85,7 +84,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &6179528081735923340
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99,10 +98,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.23043382}
+  m_Offset: {x: 0, y: 0.46}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.875, y: 1.375}
     newSize: {x: 0.875, y: 1.375}
     adaptiveTilingThreshold: 0.5
@@ -112,18 +111,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.875, y: 0.91413236}
   m_EdgeRadius: 0
---- !u!114 &385512377245636048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6625179940447860082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77abd89b1f11128468cae6deec5b86ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isStatic: 0
-  offset: -5
-  accuracy: 8
