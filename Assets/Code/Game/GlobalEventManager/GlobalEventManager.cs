@@ -16,18 +16,6 @@ public class GlobalEventManager : ScriptableObject
 		OnPauseUnpressed?.Invoke();
 	}
 
-	public static UnityEvent OnDialogStarted = new();
-	public static void SendDialogStarted()
-	{
-		OnDialogStarted?.Invoke();
-	}
-
-	public static UnityEvent OnDialogEnded = new();
-	public static void SendDialogEnded()
-	{
-		OnDialogEnded?.Invoke();
-	}
-
 	public static UnityEvent OnSavePressed = new();
 	public static void SendSavePressed()
 	{

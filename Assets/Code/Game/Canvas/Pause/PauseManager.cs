@@ -4,7 +4,7 @@ public class PauseManager : MonoBehaviour
 {
 	IAnimationManager[] animationManagers;
 
-	bool pauseIsGoing = false;
+	private bool pauseIsGoing = false;
 
     private void Start()
 	{
