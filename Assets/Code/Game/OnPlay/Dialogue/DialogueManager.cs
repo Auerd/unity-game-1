@@ -1,13 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-	Animator animator;
+	private Animator animator;
+
 	private bool dialogueIsGoing = false;
 
-	void Start()
+	private DialogueTrigger currentDialogueTrigger = null;
+
+    [SerializeField]
+	private TextMeshProUGUI text;
+
+    public Transform player;
+
+    void Start()
 	{
 		animator = GetComponent<Animator>();
 	}
