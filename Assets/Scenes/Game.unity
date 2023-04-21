@@ -250,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87767759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: -2.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -286,12 +286,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    characterName: 
     sentences:
     - 
     - 
     - 
-  manager: {fileID: 0}
+  playerCollider: {fileID: 170706605}
+  dialogueManager: {fileID: 0}
 --- !u!4 &133288425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6310752564960483729, guid: cc1b04076aa619c4d95f77286345f070, type: 3}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 170706608}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,7 +531,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &170706607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,7 +1536,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1014916902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,8 +1548,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca5a1f8ac9d36d4b90017858a7ecbed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1892282637}
-  player: {fileID: 0}
+  TextUI: {fileID: 0}
+  currentDialogue:
+    sentences: []
 --- !u!1001 &1095533419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4230,7 +4229,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6563492569073397484
 MonoBehaviour:
   m_ObjectHideFlags: 0

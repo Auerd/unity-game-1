@@ -1,7 +1,21 @@
+using UnityEngine;
 [System.Serializable]
 public class Dialogue
 {
-    public string characterName;
-    [UnityEngine.TextArea(3, 10)]
-    public string[] sentences;
+    int currentSentence = 0;
+    public string characterName{get; private set;}
+    [SerializeField]
+    [TextArea(3, 10)]
+    private string[] sentences;
+
+    public string GetNextSentence()
+    {
+        if(currentSentence < sentences.Length){
+            currentSentence++;
+            return sentences[currentSentence];
+        }
+        GetOutOfDialog();
+        return null;
+    }
+    public void GetOutOfDialog() => currentSentence = 0;
 }

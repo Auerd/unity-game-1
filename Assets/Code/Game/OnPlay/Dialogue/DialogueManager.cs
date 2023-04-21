@@ -7,12 +7,11 @@ public class DialogueManager : MonoBehaviour
 
 	private bool dialogueIsGoing = false;
 
-	private DialogueTrigger currentDialogueTrigger = null;
-
     [SerializeField]
-	private TextMeshProUGUI text;
+	private TextMeshProUGUI TextUI;
 
-    public Transform player;
+	[HideInInspector]
+	public Dialogue currentDialogue;
 
     void Start()
 	{
@@ -21,11 +20,17 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && !dialogueIsGoing)
-		{ 
-			dialogueIsGoing=true;
-			GlobalEventManager.SendPausePressed();
-			AnimationIn();
+		if(Input.GetKeyDown(KeyCode.E))
+		{
+        	if(!dialogueIsGoing && currentDialogue != null)
+			{ 
+				dialogueIsGoing=true;
+				GlobalEventManager.SendPausePressed();
+				AnimationIn();
+			} else if(dialogueIsGoing)
+			{
+				
+			}
 		}
     }
 
@@ -37,5 +42,10 @@ public class DialogueManager : MonoBehaviour
 	private void AnimationOut()
 	{
 		animator.SetTrigger("End");
+	}
+
+	private void GetLineOfDialogue()
+	{
+		TextUI.text = currentDialogue.GetNextSentence();
 	}
 }
