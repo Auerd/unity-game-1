@@ -5,6 +5,14 @@ using static UnityEngine.Mathf;
 
 public class SceneTransition : MonoBehaviour
 {
+    [System.Serializable]
+    private struct TransitionSettings
+    {
+        public float easing;
+        [Range(0.1f, 100f)]
+        public float duration;
+    }
+    // Singleton pattern
     private static SceneTransition instance;
     private static bool shouldPlayOpeningAnimation = false;
     private static float visibleProgress;
@@ -16,21 +24,22 @@ public class SceneTransition : MonoBehaviour
     private float realProgress;
     private float t = 0;
 
-    public TextMeshProUGUI LoadingPercentage;
-    public float easing;
-    public float durationOfPercentTransition;
+    [SerializeField]
+    private TextMeshProUGUI LoadingPercentage;
+    [SerializeField]
+    private TransitionSettings transitionSettings;
 
     void Update()
     {
         if (instance.LoadingSceneOperation != null)
         {
-            /* I put /0.9f 'cause progress not finishes on 1. It finishes on 0.9 */
+            /* I put /0.9f 'cause progress not finishes on 1, but on 0.9 */
             realProgress = LoadingSceneOperation.progress / 0.9f;
             if (RoundToInt(visibleProgress * 100) < RoundToInt(realProgress * 100))
             {
-                visibleProgress = Lerp(visibleProgress, realProgress, Pow(t, easing));
+                visibleProgress = Lerp(visibleProgress, realProgress, Pow(t, transitionSettings.easing));
 
-                t += Time.deltaTime / durationOfPercentTransition;
+                t += Time.deltaTime / transitionSettings.duration;
             }
             else
             {
@@ -73,13 +82,17 @@ public class SceneTransition : MonoBehaviour
 
     private void ChildObjectsDisable()
     {
-        transform.Find("Image").gameObject.SetActive(false);
-        transform.Find("LoadingBlock").gameObject.SetActive(false);
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
     private void ChildObjectsAble()
     {
-        transform.Find("Image").gameObject.SetActive(true);
-        transform.Find("LoadingBlock").gameObject.SetActive(true);
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
     }
 
     private void OnAnimationOver()

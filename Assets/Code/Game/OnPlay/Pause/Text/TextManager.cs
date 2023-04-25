@@ -1,26 +1,45 @@
+using System.Collections;
 using UnityEngine;
 
 public class TextManager : MonoBehaviour, IAnimationManager
 {
-    public float intervalBetweenButtons;
-    SectionManager sectionAtNow = null;
-
-    public void GoTo(string sectionName)
+    [SerializeField]
+    [Range(0, 1f)]
+    private float intervalBetweenButtons;
+    [SerializeField]
+    private SectionManager primarySection;
+    private SectionManager currentSection = null;
+    private bool shouldOpenNextSection = false;
+    
+    public void GoToSection(SectionManager section)
     {
-        if (sectionAtNow != null) 
-            sectionAtNow.Out(intervalBetweenButtons); 
-        if (transform.Find(sectionName).TryGetComponent(out sectionAtNow))
-            sectionAtNow.In(intervalBetweenButtons);
+        StartCoroutine(GoToSectionCoroutine(section));
+    }
+
+    public void StartOpeningNextSection()
+    {
+        shouldOpenNextSection=true;
+    }
+
+    private IEnumerator GoToSectionCoroutine(SectionManager section)
+    {
+        if (currentSection != null)
+            currentSection.Out(intervalBetweenButtons);
+        currentSection = section;
+        yield return new WaitUntil(() => shouldOpenNextSection);
+        currentSection.In(intervalBetweenButtons);
+        shouldOpenNextSection = false;
     }
 
     public void In()
     {
-        GoTo("Main");
+        GoToSection(primarySection);
+        shouldOpenNextSection = true;
     }
 
     public void Out()
     {
-        sectionAtNow.Out(intervalBetweenButtons);
-        sectionAtNow = null;
+        currentSection.Out(intervalBetweenButtons);
+        currentSection = null;
     }
 }

@@ -6,18 +6,24 @@ public class PauseManager : MonoBehaviour
 
 	private bool pauseIsGoing = false;
 
-    private void Start()
+	private void Start()
 	{
 		animationManagers = GetComponentsInChildren<IAnimationManager>();
 	}
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.Escape) && !pauseIsGoing)
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			pauseIsGoing = true;
-			GlobalEventManager.SendPausePressed();
-			AnimationIn();
+			if (!pauseIsGoing)
+			{
+				pauseIsGoing = true;
+				GlobalEventManager.SendPausePressed();
+				AnimationIn();
+				Debug.Log("Paused");
+			}
+			else
+				GoPauseOut();
 		}
 	}
 
@@ -25,12 +31,12 @@ public class PauseManager : MonoBehaviour
 	{
 		pauseIsGoing = false;
 		AnimationOut();
-        GlobalEventManager.SendPauseUnpressed();
-    }
+		GlobalEventManager.SendPauseUnpressed();
+	}
 
 	void AnimationIn()
 	{
-		foreach(IAnimationManager animationManager in animationManagers)
+		foreach (IAnimationManager animationManager in animationManagers)
 		{
 			animationManager.In();
 		}
@@ -38,9 +44,9 @@ public class PauseManager : MonoBehaviour
 
 	void AnimationOut()
 	{
-		foreach(IAnimationManager animationManager in animationManagers)
+		foreach (IAnimationManager animationManager in animationManagers)
 		{
 			animationManager.Out();
 		}
-    }
+	}
 }

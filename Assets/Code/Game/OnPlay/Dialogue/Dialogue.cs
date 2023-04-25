@@ -1,21 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
+
 [System.Serializable]
 public class Dialogue
 {
-    int currentSentence = 0;
-    public string characterName{get; private set;}
     [SerializeField]
-    [TextArea(3, 10)]
+    public string CharacterName { get; private set; }
+    [SerializeField]
+    [TextArea(1, 5)]
     private string[] sentences;
+    private readonly Queue<string> sentencesQueue = new();
 
     public string GetNextSentence()
     {
-        if(currentSentence < sentences.Length){
-            currentSentence++;
-            return sentences[currentSentence];
-        }
-        GetOutOfDialog();
+        if (sentencesQueue.Count != 0)
+            return sentencesQueue.Dequeue();
         return null;
     }
-    public void GetOutOfDialog() => currentSentence = 0;
+    public void StartNewDialogue()
+    {
+        sentencesQueue.Clear();
+        foreach (string sentence in sentences)
+        {
+            sentencesQueue.Enqueue(sentence);
+        }
+    }
 }
