@@ -3,7 +3,7 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
 	IAnimationManager[] animationManagers;
-
+	private bool isAnimating = false;
 	private bool pauseIsGoing = false;
 
 	private void Start()
@@ -15,7 +15,7 @@ public class PauseManager : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			if (!pauseIsGoing)
+			if (!pauseIsGoing && !isAnimating)
 			{
 				pauseIsGoing = true;
 				GlobalEventManager.SendPausePressed();
@@ -29,9 +29,12 @@ public class PauseManager : MonoBehaviour
 
 	public void GoPauseOut()
 	{
-		pauseIsGoing = false;
-		AnimationOut();
-		GlobalEventManager.SendPauseUnpressed();
+		if (!isAnimating)
+		{
+			pauseIsGoing = false;
+			AnimationOut();
+			GlobalEventManager.SendPauseUnpressed();
+		}
 	}
 
 	void AnimationIn()

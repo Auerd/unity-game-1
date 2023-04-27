@@ -6,6 +6,7 @@ public class SectionManager : MonoBehaviour
 {
 	TextButtonManager[] managersOfButtons;
 	TextManager textManager;
+	public bool IsAnimating { get; private set; } = false;
 
 	private void Start()
 	{
@@ -20,15 +21,11 @@ public class SectionManager : MonoBehaviour
 #endif
 	}
 
-	public void In(float interval)
-	{
+	public void In(float interval)=> 
 		StartCoroutine(AnimateInWithInterval(interval));
-	}
 
-	public void Out(float interval)
-	{
-        StartCoroutine(AnimateOutWithInterval(interval));
-	}
+	public void Out(float interval)=> 
+		StartCoroutine(AnimateOutWithInterval(interval));
 
 	IEnumerator AnimateInWithInterval(float interval)
 	{

@@ -14,9 +14,7 @@ public class TextButtonManager : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         textMeshPro = GetComponent<TextMeshProUGUI>();
-        button = GetComponent<Button>();
         textMeshPro.alpha = 0;
-        GoButtonOff();
         sectionManager = GetComponentInParent<SectionManager>();
 #if UNITY_EDITOR
         if (sectionManager == null)
@@ -27,7 +25,6 @@ public class TextButtonManager : MonoBehaviour
 #endif
     }
 
-
     public void In()
     {
         animator.SetTrigger("In");
@@ -36,20 +33,5 @@ public class TextButtonManager : MonoBehaviour
     public void Out()
     {
         animator.SetTrigger("Out");
-    }
-
-    public void GoButtonOff()
-    {
-        button.enabled = false;
-    }
-
-    public void GoButtonOn()
-    {
-        button.enabled = true;
-    }
-
-    public void GoObjectOff()
-    {
-        gameObject.SetActive(false);
     }
 }

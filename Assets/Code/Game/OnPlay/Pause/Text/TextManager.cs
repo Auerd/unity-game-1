@@ -3,43 +3,43 @@ using UnityEngine;
 
 public class TextManager : MonoBehaviour, IAnimationManager
 {
-    [SerializeField]
-    [Range(0, 1f)]
-    private float intervalBetweenButtons;
-    [SerializeField]
-    private SectionManager primarySection;
-    private SectionManager currentSection = null;
-    private bool shouldOpenNextSection = false;
-    
-    public void GoToSection(SectionManager section)
-    {
-        StartCoroutine(GoToSectionCoroutine(section));
-    }
+	[SerializeField]
+	[Range(0, 1f)]
+	private float intervalBetweenButtons;
+	[SerializeField]
+	private SectionManager primarySection;
+	private SectionManager currentSection = null;
+	private bool shouldOpenNextSection = false;
+	bool isAnimating = false;
 
-    public void StartOpeningNextSection()
-    {
-        shouldOpenNextSection=true;
-    }
+	public void GoToSection(SectionManager section)=>
+		StartCoroutine(GoToSectionCoroutine(section));
 
-    private IEnumerator GoToSectionCoroutine(SectionManager section)
-    {
-        if (currentSection != null)
-            currentSection.Out(intervalBetweenButtons);
-        currentSection = section;
-        yield return new WaitUntil(() => shouldOpenNextSection);
-        currentSection.In(intervalBetweenButtons);
-        shouldOpenNextSection = false;
-    }
+	public void StartOpeningNextSection()=> 
+		shouldOpenNextSection = true;
 
-    public void In()
-    {
-        GoToSection(primarySection);
-        shouldOpenNextSection = true;
-    }
+	private IEnumerator GoToSectionCoroutine(SectionManager section)
+	{
+		if (currentSection != null)
+			currentSection.Out(intervalBetweenButtons);
+		currentSection = section;
+		yield return new WaitUntil(() => shouldOpenNextSection);
+		currentSection.In(intervalBetweenButtons);
+		shouldOpenNextSection = false;
+	}
 
-    public void Out()
-    {
-        currentSection.Out(intervalBetweenButtons);
-        currentSection = null;
-    }
+	public void In()
+	{
+		GoToSection(primarySection);
+		shouldOpenNextSection = true;
+	}
+
+	public void Out()
+	{
+		currentSection.Out(intervalBetweenButtons);
+		currentSection = null;
+	}
+
+	public bool GetAnimatingState()=>
+		isAnimating;
 }
