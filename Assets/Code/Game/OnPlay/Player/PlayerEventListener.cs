@@ -1,10 +1,15 @@
 using UnityEngine;
-using static GlobalEventManager;
+using EventSystem;
 
 public class PlayerEventListener : MonoBehaviour
 {
     PlayerControl playerControl;
     Animator animator;
+    [Header("Pause Listeners")]
+    [SerializeField]
+    GameEvent onPausePressed;
+    [SerializeField]
+    GameEvent onResumePressed;
 
     private void Start()
     {
@@ -14,8 +19,8 @@ public class PlayerEventListener : MonoBehaviour
 
     void Awake()
     {
-        OnPausePressed.AddListener(Stop);
-        OnPauseUnpressed.AddListener(Continue);
+        onPausePressed.Subscribe(Stop);
+        onPausePressed.Subscribe(Continue);
     }
 
     void Stop()

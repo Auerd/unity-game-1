@@ -1,15 +1,19 @@
+using EventSystem;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
 	IAnimationManager[] animationManagers;
 
+	[SerializeField]
+	GameEvent onPausePressed;
+	[SerializeField]
+	GameEvent onResumePressed;
+
 	private bool pauseIsGoing = false;
 
-	private void Start()
-	{
+	private void Start()=>
 		animationManagers = GetComponentsInChildren<IAnimationManager>();
-	}
 
 	void Update()
 	{
@@ -18,9 +22,8 @@ public class PauseManager : MonoBehaviour
 			if (!pauseIsGoing)
 			{
 				pauseIsGoing = true;
-				GlobalEventManager.SendPausePressed();
+				onPausePressed.Raise();
 				AnimationIn();
-				Debug.Log("Paused");
 			}
 			else
 				GoPauseOut();
@@ -31,7 +34,7 @@ public class PauseManager : MonoBehaviour
 	{
 		pauseIsGoing = false;
 		AnimationOut();
-		GlobalEventManager.SendPauseUnpressed();
+		onResumePressed.Raise();
 	}
 
 	void AnimationIn()

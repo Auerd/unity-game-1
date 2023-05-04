@@ -1,3 +1,4 @@
+using EventSystem;
 using System;
 using UnityEngine;
 
@@ -5,10 +6,13 @@ public class PlayerSaveManager : MonoBehaviour
 {
     string saveKey;
 
+    [SerializeField]
+    GameEvent saveEvent;
+
     private void Start()
     {
         saveKey = transform.name;
-        GlobalEventManager.OnSavePressed.AddListener(Save);
+        saveEvent.Subscribe(Save);
         Load();
     }
 

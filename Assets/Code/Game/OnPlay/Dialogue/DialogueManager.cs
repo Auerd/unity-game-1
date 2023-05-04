@@ -1,109 +1,116 @@
+using EventSystem;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+namespace DialogueSystem
 {
-	private Animator animator;
-
-	private bool dialogueIsGoing = false;
-	private bool sentenceIsTyping = false;
-
-	private string currentSentence;
-	private Coroutine currentCoroutine;
-
-	[SerializeField]
-	private TextMeshProUGUI TextUI;
-
-	[SerializeField]
-	[Range(1f, 20f)]
-	private float speedOfTyping;
-
-	[HideInInspector]
-	public Dialogue CurrentDialogue { private get; set; }
-
-	void Start()
+	public class DialogueManager : MonoBehaviour
 	{
-		animator = GetComponent<Animator>();
-	}
+		private Animator animator;
 
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.E) && CurrentDialogue != null)
+		private bool dialogueIsGoing = false;
+		private bool sentenceIsTyping = false;
+
+		private Sentence currentSentence;
+		private Coroutine currentCoroutine;
+
+		[SerializeField]
+		private TextMeshProUGUI textField;
+		[SerializeField]
+        private TextMeshProUGUI personNameField;
+		[SerializeField]
+		private GameEvent dialogueStarted;
+		[SerializeField] 
+		private GameEvent dialogueEnded;
+
+		[SerializeField]
+		[Range(1f, 20f)]
+		private float speedOfTyping;
+
+		[HideInInspector]
+		public Dialogue CurrentDialogue { private get; set; }
+
+		void Start()=>
+			animator = GetComponent<Animator>();
+
+		private void Update()
 		{
-			if (!dialogueIsGoing)
+			if (Input.GetKeyDown(KeyCode.E) && CurrentDialogue != null)
 			{
-				GoInDialogue();
-			}
-			else
-			{
-				if (!sentenceIsTyping)
-					SetNextSentence();
+				if (!dialogueIsGoing)
+				{
+					StartDialogue();
+				}
 				else
-					DisplayWholeSentence();
+				{
+					if (!sentenceIsTyping)
+						SetNextSentence();
+					else
+						DisplayWholeSentence();
+				}
 			}
 		}
-	}
 
-	public void SetNextSentence()
-	{
-		currentSentence = CurrentDialogue.GetNextSentence();
-		if (currentSentence != null)
-			DisplaySentence(currentSentence);
-		else
-			GoOutFromDialogue();
-	}
-
-	public void EndDialogue() => dialogueIsGoing = false;
-
-	private void DisplaySentence(string sentence)
-	{
-		if (currentCoroutine != null)
-			StopCoroutine(currentCoroutine);
-		currentCoroutine = StartCoroutine(TypeSentence(sentence));
-	}
-
-	private void DisplayWholeSentence()
-	{
-		if (currentCoroutine != null)
-			StopCoroutine(currentCoroutine);
-		TextUI.text = currentSentence;
-		sentenceIsTyping = false;
-	}
-
-	private IEnumerator TypeSentence(string sentence)
-	{
-		TextUI.text = "";
-		sentenceIsTyping = true;
-		foreach (char letter in sentence)
+		public void SetNextSentence()
 		{
-			TextUI.text += letter;
-			if (letter != ' ')
-				yield return new WaitForSeconds(1 / speedOfTyping);
+			currentSentence = CurrentDialogue.GetNextSentence();
+			if (currentSentence != null)
+				DisplaySentence(currentSentence);
+			else
+				EndDialogue();
 		}
-		sentenceIsTyping = false;
+
+		private void DisplaySentence(Sentence sentence)
+		{
+			if (currentCoroutine != null)
+				StopCoroutine(currentCoroutine);
+			personNameField.text = sentence.person.Name;
+			currentCoroutine = StartCoroutine(TypeSentence(sentence));
+		}
+
+		private void DisplayWholeSentence()
+		{
+			if (currentCoroutine != null)
+				StopCoroutine(currentCoroutine);
+			textField.text = currentSentence.words;
+			sentenceIsTyping = false;
+		}
+
+		private IEnumerator TypeSentence(Sentence sentence)
+		{
+			textField.text = "";
+			sentenceIsTyping = true;
+			foreach (char letter in sentence.words)
+			{
+				textField.text += letter;
+				if (letter != ' ')
+					yield return new WaitForSeconds(1 / speedOfTyping);
+			}
+			sentenceIsTyping = false;
+		}
+
+		private void EndDialogue()
+		{
+			AnimationOut();
+			dialogueIsGoing = false;
+			dialogueEnded.Raise();
+		}
+
+		private void StartDialogue()
+		{
+			textField.text = "";
+			AnimationIn();
+			dialogueIsGoing = true;
+			dialogueStarted.Raise();
+			CurrentDialogue.StartNewDialogue();
+			// Time of displaying first sentence sets in animator
+		}
+
+		private void AnimationIn() =>
+			animator.SetTrigger("Start");
+
+		private void AnimationOut() =>
+			animator.SetTrigger("End");
 	}
-
-	private void GoOutFromDialogue()
-	{
-		AnimationOut();
-		dialogueIsGoing = false;
-		GlobalEventManager.SendPauseUnpressed();
-	}
-
-	private void GoInDialogue()
-	{
-		TextUI.text = "";
-		AnimationIn();
-		dialogueIsGoing = true;
-		GlobalEventManager.SendPausePressed();
-		CurrentDialogue.StartNewDialogue();
-		// Displaying of first sentence sets in animator
-	}
-
-	private void AnimationIn() =>
-		animator.SetTrigger("Start");
-
-	private void AnimationOut() =>
-		animator.SetTrigger("End");
 }
