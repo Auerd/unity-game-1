@@ -16,10 +16,9 @@ public class PlayerSaveManager : MonoBehaviour
         Load();
     }
 
-    private void OnApplicationQuit()
-    {
+    private void OnApplicationQuit()=>
         Save();
-    }
+    
 
     [Serializable]
     private struct PlayerData

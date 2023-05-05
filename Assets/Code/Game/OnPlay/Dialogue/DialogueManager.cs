@@ -9,6 +9,8 @@ namespace DialogueSystem
 	{
 		private Animator animator;
 
+		[SerializeField]
+		[HideInInspector]
 		private bool dialogueIsGoing = false;
 		private bool sentenceIsTyping = false;
 
@@ -38,6 +40,7 @@ namespace DialogueSystem
 		{
 			if (Input.GetKeyDown(KeyCode.E) && CurrentDialogue != null)
 			{
+				Debug.Log(dialogueIsGoing);
 				if (!dialogueIsGoing)
 				{
 					StartDialogue();
@@ -52,7 +55,16 @@ namespace DialogueSystem
 			}
 		}
 
-		public void SetNextSentence()
+
+        private void DisplayWholeSentence()
+        {
+            if (currentCoroutine != null)
+                StopCoroutine(currentCoroutine);
+            textField.text = currentSentence.words;
+            sentenceIsTyping = false;
+        }
+
+        public void SetNextSentence()
 		{
 			currentSentence = CurrentDialogue.GetNextSentence();
 			if (currentSentence != null)
@@ -67,14 +79,6 @@ namespace DialogueSystem
 				StopCoroutine(currentCoroutine);
 			personNameField.text = sentence.person.Name;
 			currentCoroutine = StartCoroutine(TypeSentence(sentence));
-		}
-
-		private void DisplayWholeSentence()
-		{
-			if (currentCoroutine != null)
-				StopCoroutine(currentCoroutine);
-			textField.text = currentSentence.words;
-			sentenceIsTyping = false;
 		}
 
 		private IEnumerator TypeSentence(Sentence sentence)
@@ -93,7 +97,6 @@ namespace DialogueSystem
 		private void EndDialogue()
 		{
 			AnimationOut();
-			dialogueIsGoing = false;
 			dialogueEnded.Raise();
 		}
 

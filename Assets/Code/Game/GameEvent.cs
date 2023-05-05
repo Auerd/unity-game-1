@@ -6,7 +6,7 @@ namespace EventSystem
 	[CreateAssetMenu(fileName = "Game Event")]
 	public class GameEvent : ScriptableObject
 	{
-		private readonly UnityEvent mEvent;
+		private readonly UnityEvent mEvent = new();
 
 		public void Raise() =>
 			mEvent?.Invoke();
