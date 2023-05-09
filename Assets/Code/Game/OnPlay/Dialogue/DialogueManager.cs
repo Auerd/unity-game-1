@@ -20,7 +20,7 @@ namespace DialogueSystem
 		[SerializeField]
 		private TextMeshProUGUI textField;
 		[SerializeField]
-        private TextMeshProUGUI personNameField;
+		private TextMeshProUGUI personNameField;
 		[SerializeField]
 		private GameEvent dialogueStarted;
 		[SerializeField] 
@@ -33,18 +33,17 @@ namespace DialogueSystem
 		[HideInInspector]
 		public Dialogue CurrentDialogue { private get; set; }
 
-		void Start()=>
+		void Start()
+		{
 			animator = GetComponent<Animator>();
+        }
 
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.E) && CurrentDialogue != null)
 			{
-				Debug.Log(dialogueIsGoing);
 				if (!dialogueIsGoing)
-				{
 					StartDialogue();
-				}
 				else
 				{
 					if (!sentenceIsTyping)
@@ -56,15 +55,15 @@ namespace DialogueSystem
 		}
 
 
-        private void DisplayWholeSentence()
-        {
-            if (currentCoroutine != null)
-                StopCoroutine(currentCoroutine);
-            textField.text = currentSentence.words;
-            sentenceIsTyping = false;
-        }
+		private void DisplayWholeSentence()
+		{
+			if (currentCoroutine != null)
+				StopCoroutine(currentCoroutine);
+			textField.text = currentSentence.words;
+			sentenceIsTyping = false;
+		}
 
-        public void SetNextSentence()
+		public void SetNextSentence()
 		{
 			currentSentence = CurrentDialogue.GetNextSentence();
 			if (currentSentence != null)

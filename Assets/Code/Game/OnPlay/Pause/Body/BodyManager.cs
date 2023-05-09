@@ -1,20 +1,15 @@
 using UnityEngine;
 
-public class BodyManager : MonoBehaviour, IAnimationManager
+public class BodyManager : AnimationManager
 {
-    Animator animator;
+	Animator animator;
 
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-    public void In()
-    {
-        animator.SetTrigger("In");
-    }
+	private void Start()=>
+		animator = GetComponent<Animator>();
+	
+	public override void In()=>
+		animator.SetTrigger("In");
 
-    public void Out()
-    {
-        animator.SetTrigger("Out");
-    }
+	public override void Out()=>
+		animator.SetTrigger("Out");
 }
