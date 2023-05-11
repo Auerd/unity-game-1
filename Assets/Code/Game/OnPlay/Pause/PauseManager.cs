@@ -1,9 +1,10 @@
 using EventSystem;
+using ExternalTools;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
-	IAnimationManager[] animationManagers;
+	AnimationManager[] animationManagers;
 
 	[SerializeField]
 	GameEvent onPausePressed;
@@ -12,44 +13,45 @@ public class PauseManager : MonoBehaviour
 
 	private bool pauseIsGoing = false;
 
-	private void Start()=>
-		animationManagers = GetComponentsInChildren<IAnimationManager>();
-
+	private void Start()
+	{
+		NullChecker.LogWarning(this, onPausePressed);
+		animationManagers = GetComponentsInChildren<AnimationManager>();
+	}
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			if (!pauseIsGoing)
-			{
-				pauseIsGoing = true;
-				onPausePressed.Raise();
-				AnimationIn();
-			}
+				AblePause();
 			else
-				GoPauseOut();
+				DisablePause();
 		}
 	}
 
-	public void GoPauseOut()
+	public void DisablePause()
 	{
 		pauseIsGoing = false;
 		AnimationOut();
 		onResumePressed.Raise();
 	}
 
+	private void AblePause()
+	{
+        pauseIsGoing = true;
+        onPausePressed.Raise();
+        AnimationIn();
+    }
+
 	void AnimationIn()
 	{
-		foreach (IAnimationManager animationManager in animationManagers)
-		{
+		foreach (AnimationManager animationManager in animationManagers)
 			animationManager.In();
-		}
 	}
 
 	void AnimationOut()
 	{
-		foreach (IAnimationManager animationManager in animationManagers)
-		{
+		foreach (AnimationManager animationManager in animationManagers)
 			animationManager.Out();
-		}
 	}
 }

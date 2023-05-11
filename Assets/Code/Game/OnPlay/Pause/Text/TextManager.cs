@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TextManager : MonoBehaviour, IAnimationManager
+public class TextManager : AnimationManager
 {
     [SerializeField]
     [Range(0, 1f)]
@@ -11,9 +11,9 @@ public class TextManager : MonoBehaviour, IAnimationManager
     private SectionManager currentSection = null;
     private bool shouldOpenNextSection = false;
     
-    public void GoToSection(SectionManager section)
+    public void ChangeSection(SectionManager section)
     {
-        StartCoroutine(GoToSectionCoroutine(section));
+        StartCoroutine(ChangeSectionCoroutine(section));
     }
 
     public void StartOpeningNextSection()
@@ -21,23 +21,22 @@ public class TextManager : MonoBehaviour, IAnimationManager
         shouldOpenNextSection=true;
     }
 
-    private IEnumerator GoToSectionCoroutine(SectionManager section)
+    private IEnumerator ChangeSectionCoroutine(SectionManager section)
     {
         if (currentSection != null)
             currentSection.Out(intervalBetweenButtons);
         currentSection = section;
         yield return new WaitUntil(() => shouldOpenNextSection);
         currentSection.In(intervalBetweenButtons);
-        shouldOpenNextSection = false;
     }
 
-    public void In()
+    public override void In()
     {
-        GoToSection(primarySection);
+        ChangeSection(primarySection);
         shouldOpenNextSection = true;
     }
 
-    public void Out()
+    public override void Out()
     {
         currentSection.Out(intervalBetweenButtons);
         currentSection = null;
