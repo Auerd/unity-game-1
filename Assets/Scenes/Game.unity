@@ -2681,8 +2681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1b930b213fcc9488e210fd301289db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onPausePressed: {fileID: 0}
-  onResumePressed: {fileID: 0}
+  onPausePressed: {fileID: 11400000, guid: cf24254efbc8419449329256cc4e7b50, type: 2}
+  onResumePressed: {fileID: 11400000, guid: 9621c59a9b4c4814b93e375da0f146f5, type: 2}
 --- !u!1001 &1977309543
 PrefabInstance:
   m_ObjectHideFlags: 0
