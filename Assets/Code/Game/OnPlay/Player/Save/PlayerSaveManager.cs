@@ -2,54 +2,55 @@ using EventSystem;
 using System;
 using UnityEngine;
 
-public class PlayerSaveManager : MonoBehaviour
+namespace SaveSystem
 {
-    string saveKey;
-
-    [SerializeField]
-    GameEvent saveEvent;
-
-    private void Start()
+    public class PlayerSaveManager : MonoBehaviour
     {
-        saveKey = transform.name;
-        saveEvent.Subscribe(Save);
-        Load();
-    }
+        string saveKey;
+        [SerializeField]
+        GameEvent saveEvent;
 
-    private void OnApplicationQuit()=>
-        Save();
-    
-
-    [Serializable]
-    private struct PlayerData
-    {
-        public float[] pos;
-        public int lvl;
-    }
-
-    void Save()
-    {
-        PlayerData data = new()
+        private void Start()
         {
-            pos = new float[2]
-            {
-                transform.position.x, transform.position.y,
-            },
-        };
-        SaveManager.Save(saveKey, data);
-    }
-
-    void Load()
-    {
-        if (SaveManager.TryLoad(saveKey, out PlayerData data))
-        {
-            transform.position = new Vector2()
-            {
-                x = data.pos[0],
-                y = data.pos[1]
-            };
+            saveKey = transform.name;
+            saveEvent.Subscribe(Save);
+            Load();
         }
-        else
-            transform.position = new Vector2();
+
+        private void OnApplicationQuit() =>
+            Save();
+
+        [Serializable]
+        private struct PlayerData
+        {
+            public float[] pos;
+            public int lvl;
+        }
+
+        void Save()
+        {
+            PlayerData data = new()
+            {
+                pos = new float[2]
+                {
+                transform.position.x, transform.position.y,
+                },
+            };
+            SaveManager.Save(saveKey, data);
+        }
+
+        void Load()
+        {
+            if (SaveManager.TryLoad(saveKey, out PlayerData data))
+            {
+                transform.position = new Vector2()
+                {
+                    x = data.pos[0],
+                    y = data.pos[1]
+                };
+            }
+            else
+                transform.position = new Vector2();
+        }
     }
 }

@@ -7,6 +7,12 @@ namespace EventSystem
 	public class GameEvent : ScriptableObject
 	{
 		private readonly UnityEvent mEvent = new();
+		[SerializeField]
+		[TextArea(1, 20)]
+		[Tooltip(
+			"Use at your discretion\n" +
+			"Can be useful if there are a lot of objects")]
+		private string description;
 
 		public void Raise() =>
 			mEvent?.Invoke();

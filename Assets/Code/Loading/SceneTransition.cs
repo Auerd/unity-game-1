@@ -14,6 +14,7 @@ public class SceneTransition : MonoBehaviour
 	}
 	// Singleton pattern
 	private static SceneTransition instance;
+	private SceneTransition() { }
 	private static bool shouldPlayOpeningAnimation = false;
 	private static float visibleProgress;
 

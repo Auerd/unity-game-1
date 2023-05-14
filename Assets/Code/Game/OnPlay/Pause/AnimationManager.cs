@@ -5,4 +5,3 @@
     public abstract void Out();
     public bool IsAnimating { get { return isAnimating; } }
 }
-
