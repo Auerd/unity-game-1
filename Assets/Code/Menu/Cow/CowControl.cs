@@ -28,10 +28,10 @@ public class CowControl : MonoBehaviour
 		pause = true;
 
 		rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		animator = GetComponent<Animator>();
 
-        // Sets random position on start of the scene
+		// Sets random position on start of the scene
 		rb.position = GetRandomPointFromDisplay(display);
 
 		SetRandomForce();
@@ -43,14 +43,14 @@ public class CowControl : MonoBehaviour
 	{
 		animator.SetBool("IsMoving", force.magnitude != 0);
 
-        if (force.x > 0) spriteRenderer.flipX = false;
+		if (force.x > 0) spriteRenderer.flipX = false;
 		else if (force.x < 0) spriteRenderer.flipX = true;
 	}
 
 	private void FixedUpdate()
 	{
-        rb.MovePosition(rb.position + force * Time.fixedDeltaTime);
-    }
+		rb.MovePosition(rb.position + force * Time.fixedDeltaTime);
+	}
 
 	IEnumerator ForceControl()
 	{
@@ -66,7 +66,7 @@ public class CowControl : MonoBehaviour
 		}
 	}
 
-    private void SetRandomForce()
+	private void SetRandomForce()
 	{
 		force = GetRandomPointFromDisplay(display);
 		force -= rb.position;
@@ -76,10 +76,10 @@ public class CowControl : MonoBehaviour
 
 	private Vector2 GetRandomPointFromDisplay(Camera display)
 	{
-        topRight = display.ScreenToWorldPoint(new Vector2());
-        bottomLeft = display.ScreenToWorldPoint(new Vector2(display.scaledPixelWidth, display.scaledPixelHeight));
-        randomX = Random.Range(bottomLeft.x, topRight.x);
-        randomY = Random.Range(bottomLeft.y, topRight.y);
+		topRight = display.ScreenToWorldPoint(new Vector2());
+		bottomLeft = display.ScreenToWorldPoint(new Vector2(display.scaledPixelWidth, display.scaledPixelHeight));
+		randomX = Random.Range(bottomLeft.x, topRight.x);
+		randomY = Random.Range(bottomLeft.y, topRight.y);
 		return new Vector2(randomX, randomY);
-    }
+	}
 }

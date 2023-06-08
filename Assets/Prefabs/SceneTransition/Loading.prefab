@@ -53,8 +53,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadingPercentage: {fileID: 8212488643157906340}
-  easing: 3
-  durationOfPercentTransition: 5
+  transitionSettings:
+    easing: 1
+    duration: 100
 --- !u!95 &8212488641996068777
 Animator:
   serializedVersion: 5
@@ -75,6 +76,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8212488643157906342
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +271,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!222 &8212488643374440507
 CanvasRenderer:
   m_ObjectHideFlags: 0

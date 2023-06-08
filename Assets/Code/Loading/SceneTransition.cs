@@ -5,86 +5,94 @@ using static UnityEngine.Mathf;
 
 public class SceneTransition : MonoBehaviour
 {
-    private static SceneTransition instance;
-    private static bool shouldPlayOpeningAnimation = false;
-    private static float visibleProgress;
+	[System.Serializable]
+	private struct TransitionSettings
+	{
+		public float easing;
+		[Range(0.1f, 100f)]
+		public float duration;
+	}
+	// Singleton pattern
+	private static SceneTransition instance;
+	private SceneTransition() { }
+	private static bool shouldPlayOpeningAnimation = false;
+	private static float visibleProgress;
 
-    private Animator animator;
-    private new Transform transform;
-    private AsyncOperation LoadingSceneOperation;
+	private Animator animator;
+	private new Transform transform;
+	private AsyncOperation LoadingSceneOperation;
 
-    private float realProgress;
-    private float t = 0;
+	private float realProgress;
+	private float t = 0;
 
-    public TextMeshProUGUI LoadingPercentage;
-    public float easing;
-    public float durationOfPercentTransition;
+	[SerializeField]
+	private TextMeshProUGUI LoadingPercentage;
+	[SerializeField]
+	private TransitionSettings transitionSettings;
 
-    void Update()
-    {
-        if (instance.LoadingSceneOperation != null)
-        {
-            /* I put /0.9f 'cause progress not finishes on 1. It finishes on 0.9 */
-            realProgress = LoadingSceneOperation.progress / 0.9f;
-            if (RoundToInt(visibleProgress * 100) < RoundToInt(realProgress * 100))
-            {
-                visibleProgress = Lerp(visibleProgress, realProgress, Pow(t, easing));
+	void Start()
+	{
+		instance = this;
+		animator = GetComponent<Animator>();
+		transform = GetComponent<Transform>();
+		if (shouldPlayOpeningAnimation)
+		{
+			animator.SetTrigger("SceneOpen");
+			instance.LoadingPercentage.text = 100 + "%";
+		}
+		else
+		{
+			SetChildrenState(false);
+			instance.LoadingPercentage.text = 0 + "%";
+		}
+	}
 
-                t += Time.deltaTime / durationOfPercentTransition;
-            }
-            else
-            {
-                visibleProgress = realProgress;
+	void Update()
+	{
+		if (instance.LoadingSceneOperation != null)
+			ManageLoading();
+	}
 
-                t = 0;
-            }
+	private void ManageLoading()
+	{
+		/* I put /0.9f 'cause progress not finishes on 1, but on 0.9 */
+		realProgress = LoadingSceneOperation.progress / 0.9f;
+		if (RoundToInt(visibleProgress * 100) < RoundToInt(realProgress * 100))
+		{
+			visibleProgress = Lerp(visibleProgress, realProgress, Pow(t, transitionSettings.easing));
 
-            instance.LoadingPercentage.text = RoundToInt(visibleProgress * 100) + "%";
+			t += Time.deltaTime / transitionSettings.duration;
+		}
+		else
+		{
+			visibleProgress = realProgress;
 
-            if (RoundToInt(visibleProgress * 100) == 100) OnAnimationOver();
-        }
-    }
+			t = 0;
+		}
 
-    void Start()
-    {
-        instance = this;
-        animator = GetComponent<Animator>();
-        transform = GetComponent<Transform>();
-        if (shouldPlayOpeningAnimation)
-        {
-            animator.SetTrigger("SceneOpen");
-            instance.LoadingPercentage.text = 100 + "%";
-        }
-        else
-        {
-            ChildObjectsDisable();
-            instance.LoadingPercentage.text = 0 + "%";
-        }
-    }
+		instance.LoadingPercentage.text = RoundToInt(visibleProgress * 100) + "%";
 
-    public static void SwitchToScene(string sceneName)
-    {
-        instance.animator.SetTrigger("SceneClose");
-        instance.ChildObjectsAble();
-        instance.LoadingSceneOperation = SceneManager.LoadSceneAsync(sceneName);
-        instance.LoadingSceneOperation.allowSceneActivation = false;
-        visibleProgress = 0;
-    }
+		if (RoundToInt(visibleProgress * 100) == 100) OnAnimationOver();
+	}
 
-    private void ChildObjectsDisable()
-    {
-        transform.Find("Image").gameObject.SetActive(false);
-        transform.Find("LoadingBlock").gameObject.SetActive(false);
-    }
-    private void ChildObjectsAble()
-    {
-        transform.Find("Image").gameObject.SetActive(true);
-        transform.Find("LoadingBlock").gameObject.SetActive(true);
-    }
+	public static void SwitchToScene(string sceneName)
+	{
+		instance.animator.SetTrigger("SceneClose");
+		instance.SetChildrenState(true);
+		instance.LoadingSceneOperation = SceneManager.LoadSceneAsync(sceneName);
+		instance.LoadingSceneOperation.allowSceneActivation = false;
+		visibleProgress = 0;
+	}
 
-    private void OnAnimationOver()
-    {
-        shouldPlayOpeningAnimation = true;
-        instance.LoadingSceneOperation.allowSceneActivation = true;
-    }
+	private void SetChildrenState(bool state)
+	{
+		foreach (Transform child in transform)
+			child.gameObject.SetActive(state);
+	}
+
+	private void OnAnimationOver()
+	{
+		shouldPlayOpeningAnimation = true;
+		instance.LoadingSceneOperation.allowSceneActivation = true;
+	}
 }

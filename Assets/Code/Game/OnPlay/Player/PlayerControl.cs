@@ -1,23 +1,24 @@
 using UnityEngine;
-using static UnityEngine.KeyCode;
 using static UnityEngine.Input;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControl : MonoBehaviour
 {
-	public float speed;
+	[SerializeField]
+	private float speed;
 
 	private Vector2 direction;
 
-	public bool smooth_movement;
+	[SerializeField]
+	private bool smooth_movement;
 
 	private Rigidbody2D rb;
 
-	public Animator animator;
+	[SerializeField]
+	private Animator animator;
 
-    private void Start()
-	{
+	private void Start()=>
 		rb = GetComponent<Rigidbody2D>();
-	}
 
 	void Update()
 	{
@@ -28,16 +29,8 @@ public class PlayerControl : MonoBehaviour
 		}
 		else
 		{
-			direction.x = 0;
-			direction.y = 0;
-			if (GetKey(D))
-				direction.x = 1;
-			else if (GetKey(A))
-				direction.x = -1;
-			if (GetKey(W))
-				direction.y = 1;
-			else if (GetKey(S))
-				direction.y = -1;
+			direction.x = GetAxisRaw("Horizontal");
+			direction.y = GetAxisRaw("Vertical");
 		}
 		animator.SetFloat("Horizontal", direction.x);
 		animator.SetFloat("Vertical", direction.y);
@@ -51,7 +44,7 @@ public class PlayerControl : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (direction.magnitude>1) direction.Normalize();
+		if (direction.magnitude > 1) direction.Normalize();
 		rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * direction);
 	}
 }
